@@ -17,8 +17,8 @@ class Tables(Construct):
 
         self.invocations = ddb.Table(
             self, "Invocations", 
-            partition_key=ddb.Attribute(name="endpoint_name", type=ddb.AttributeType.STRING),
-            sort_key = ddb.Attribute(name="invocation_start", type=ddb.AttributeType.STRING),
+            partition_key=ddb.Attribute(name="endpointName", type=ddb.AttributeType.STRING),
+            sort_key = ddb.Attribute(name="startTime", type=ddb.AttributeType.NUMBER),
 
             **TABLE_CONFIG)
 

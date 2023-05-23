@@ -3,10 +3,14 @@
 import json
 import os
 import base64
-
+from datetime import datetime
 import boto3
+from decimal import Decimal
+
 s3_client = boto3.client('s3')
 sm_runtime = boto3.client('sagemaker-runtime')
+dynamodb = boto3.resource('dynamodb')
+
 
 def get_file_contents(bucket_name, file_key):
 
@@ -41,6 +45,22 @@ def convert_img2payload(img_contents, prompt=""):
     
     return payload
 
+def save_invocation_data(invocation_data):
+    table = dynamodb.Table(os.environ['TABLE_NAME'])
+
+    item = {
+        "endpointName":  os.environ['SM_ENDPOINT'],
+        "InferenceId": invocation_data["InferenceId"],
+        "originalFile": invocation_data["originalFile"],
+        "startTime": Decimal(int(datetime.now().timestamp()))
+    }
+
+    try:
+        # Put the item into the table
+        response = table.put_item(Item=item)
+        print('Item inserted successfully:', response)
+    except Exception as e:
+        print('Error inserting item:', str(e))
 
 def upload_json_to_s3(json_data, bucket_name, file_key, content_type):
 
@@ -79,8 +99,11 @@ def lambda_handler(event, context):
     payload = convert_img2payload(file_contents)
     s3_location  =  upload_json_to_s3(payload,input_bucket, f"{payload_prefix}/{file_name}.payload", 'application/json;jpeg')
     response = sm_runtime.invoke_endpoint_async(EndpointName=endpoint_name, InputLocation=s3_location, Accept='application/json;jpeg')
+
+    response['originalFile'] = f"s3://{bucket_name}/{file_key}"
     print (response)
 
+    save_invocation_data(response)
 
     return build_response (200,json.dumps(response))
 

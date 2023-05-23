@@ -34,7 +34,7 @@ class StableDifussionX4UpscalerStack(Stack):
 
 
         Fn.invoking_lambda.add_event_source(aws_lambda_event_sources.S3EventSource(bucket,
-            events=[s3.EventType.OBJECT_CREATED, s3.EventType.OBJECT_REMOVED],
+            events=[s3.EventType.OBJECT_CREATED],
             filters=[s3.NotificationKeyFilter(prefix="input_images/")]
         ))
 
