@@ -6,6 +6,9 @@ import base64
 from datetime import datetime
 import boto3
 from decimal import Decimal
+from PIL import Image
+from io import BytesIO
+
 
 s3_client = boto3.client('s3')
 sm_runtime = boto3.client('sagemaker-runtime')
@@ -79,6 +82,16 @@ def upload_json_to_s3(json_data, bucket_name, file_key, content_type):
         print(f"Error uploading JSON data to S3: {e}")
         raise
 
+def pre_scaledown_image(im):
+    im_w, im_h = im.width, im.height
+    scale_factor = 512 / im_w
+    if scale_factor < 1:
+        new_w = int(im_w*scale_factor)
+        new_h = int(im_h*scale_factor)
+        print(f"imagen {im_w}x{im_h} ==> reescalando a {new_w}x{new_h}")
+        return im.resize((new_w, new_h ))
+    return im
+
 def lambda_handler(event, context):
     print (event)
     bucket_name = event['Records'][0]['s3']['bucket']['name']
@@ -91,12 +104,25 @@ def lambda_handler(event, context):
 
     file_contents = get_file_contents(bucket_name, file_key)
 
+
+
     if not(file_contents):  
         print('Archivo Vacío')
         return build_response (200,json.dumps('Vacío!'))
 
+    img = Image.open(BytesIO(file_contents))
+    new_image = pre_scaledown_image(img)
+
+    new_image.save(f'/tmp/{file_name}')
+    with open(f'/tmp/{file_name}', "rb") as f:
+        file_contents = f.read()
+
+
+
     # Usar el prompt de la imagen original, tal vez escribirla en la metadata del Objeto
     payload = convert_img2payload(file_contents)
+
+
     s3_location  =  upload_json_to_s3(payload,input_bucket, f"{payload_prefix}/{file_name}.payload", 'application/json;jpeg')
     response = sm_runtime.invoke_endpoint_async(EndpointName=endpoint_name, InputLocation=s3_location, Accept='application/json;jpeg')
 

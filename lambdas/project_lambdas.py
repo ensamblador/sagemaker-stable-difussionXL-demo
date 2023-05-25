@@ -42,4 +42,5 @@ class Lambdas(Construct):
         
         self.invoking_lambda = aws_lambda.Function(
             self, "Invoke", handler="lambda_function.lambda_handler",
+            layers= [pil.layer],
             code=aws_lambda.Code.from_asset("./lambdas/code/invoking_lambda"),**COMMON_LAMBDA_CONF)
