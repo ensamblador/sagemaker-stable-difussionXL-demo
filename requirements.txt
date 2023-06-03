@@ -1,4 +1,5 @@
 aws-cdk-lib==2.80.0
 constructs>=10.0.0,<11.0.0
+aws-cdk.aws_apigatewayv2_integrations_alpha
 boto3
 Pillow

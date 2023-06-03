@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Connect Web Chat</title>
+  </head>
+  <body>
+    <noscript>You need to enable JavaScript to run this app.</noscript>
+    <div id="root"></div>
+    <!--
+      This HTML file is a template.
+      If you open it directly in the browser, you will see an empty page.
+
+      You can add webfonts, meta tags, or analytics to this file.
+      The build step will place the bundled scripts into the <body> tag.
+
+      To begin the development, run `npm start` or `yarn start`.
+      To create a production bundle, use `npm run build` or `yarn build`.
+    -->
+  </body>
+  <script type="text/javascript">
+    (function(w, d, x, id){
+      s=d.createElement('script');
+      s.src='https://dtn7rvxwwlhud.cloudfront.net/amazon-connect-chat-interface-client.js';
+      s.async=1;
+      s.id=id;
+      d.getElementsByTagName('head')[0].appendChild(s);
+      w[x] =  w[x] || function() { (w[x].ac = w[x].ac || []).push(arguments) };
+    })(window, document, 'amazon_connect', 'b722d24e-af70-4a55-b16a-b12cd02566e0');
+    amazon_connect('styles', { openChat: { color: '#ffffff', backgroundColor: '#123456'}, closeChat: { color: '#ffffff', backgroundColor: '#123456'} });
+    amazon_connect('snippetId', 'QVFJREFIaUczMG9CY2pZeGVON3dIRFJwVkJlRHFKcW1kTTRlazcxajNHMVd5VzM1ZWdFeHpoZkxYY2RaM3JNb0M0cXNxYm9QQUFBQWJqQnNCZ2txaGtpRzl3MEJCd2FnWHpCZEFnRUFNRmdHQ1NxR1NJYjNEUUVIQVRBZUJnbGdoa2dCWlFNRUFTNHdFUVFNSDFMOUNLY0RMRDRXTEFIOEFnRVFnQ3ZLV1k3cWQ4c2VNbzc3RzhPUVo4OXhaN0s4aFlLZU1ZaitHWXliYU9ueThtQ0l2eEUyT1pKTk9BdGk6OlBJNXhKR3RDbkpQS0k3bWJGajVIT1k2Vjl5MWtYSU5mNmx6dGh5OGQrU0VWVFFmNUwzL01NSkE3M2lkdWsyMys5dktGY1crczVaNFBwdkZoRmpZb1Fmc3RzaHJiV0xlbUlYTEVqVkZuOHEwUGtxUkdmampxUVo0RitjUDZ6OGprRHFISTBBd1Y5NS9td0JsY3I3TUpKT00yam5oSGVHVT0=');
+    amazon_connect('supportedMessagingContentTypes', [ 'text/plain', 'text/markdown' ]);
+  </script>
+</html>

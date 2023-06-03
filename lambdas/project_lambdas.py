@@ -28,7 +28,6 @@ class Lambdas(Construct):
         pil = Pillow(self, 'Lay')
 
 
-
         self.success_invocation = aws_lambda.Function(
             self, "Success", handler="lambda_function.lambda_handler",
             code=aws_lambda.Code.from_asset("./lambdas/code/success_invocation"),
@@ -44,3 +43,16 @@ class Lambdas(Construct):
             self, "Invoke", handler="lambda_function.lambda_handler",
             layers= [pil.layer],
             code=aws_lambda.Code.from_asset("./lambdas/code/invoking_lambda"),**COMMON_LAMBDA_CONF)
+        
+
+        self.new_image = aws_lambda.Function(
+            self, "NewImage", handler="lambda_function.lambda_handler",
+            code=aws_lambda.Code.from_asset("./lambdas/code/new_image"),**COMMON_LAMBDA_CONF)
+        
+        self.list_images = aws_lambda.Function(
+            self, "ListImages", handler="lambda_function.lambda_handler",
+            code=aws_lambda.Code.from_asset("./lambdas/code/list_images"),**COMMON_LAMBDA_CONF)
+        
+        self.ws_handler = aws_lambda.Function(
+            self, "WSHandler", handler="lambda_function.lambda_handler",
+            code=aws_lambda.Code.from_asset("./lambdas/code/ws_handler"),**COMMON_LAMBDA_CONF)

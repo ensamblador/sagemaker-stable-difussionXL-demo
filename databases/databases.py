@@ -26,3 +26,16 @@ class Tables(Construct):
             index_name='InferenceId-index',
             partition_key=ddb.Attribute(name="InferenceId", type=ddb.AttributeType.STRING),
         )
+
+
+        self.images = ddb.Table(
+            self, "Images", 
+            partition_key=ddb.Attribute(name="location", type=ddb.AttributeType.STRING),
+            stream=ddb.StreamViewType.NEW_IMAGE,
+            **TABLE_CONFIG)
+        
+
+        self.connections = ddb.Table(
+            self, "Connections", 
+            partition_key=ddb.Attribute(name="id", type=ddb.AttributeType.STRING),
+            **TABLE_CONFIG)
