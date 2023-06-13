@@ -49,7 +49,9 @@ def convert_img2payload(img_contents, prompt=""):
     return payload
 
 def save_invocation_data(invocation_data):
-    table = dynamodb.Table(os.environ['TABLE_NAME'])
+    table_name = os.environ['TABLE_NAME']
+
+    table = dynamodb.Table(table_name)
 
     item = {
         "endpointName":  os.environ['SM_ENDPOINT'],
@@ -61,9 +63,26 @@ def save_invocation_data(invocation_data):
     try:
         # Put the item into the table
         response = table.put_item(Item=item)
-        print('Item inserted successfully:', response)
+        print(f'Item inserted successfully on {table_name}:', response)
     except Exception as e:
-        print('Error inserting item:', str(e))
+        print(f'Error inserting item on {table_name}:', str(e))
+
+
+def save_image_data(invocation_data):
+    table_name = os.environ['IMAGE_TABLE']
+    table = dynamodb.Table(table_name)
+
+    item = {
+        "location": invocation_data["originalFile"],
+        "ts": Decimal(int(datetime.now().timestamp())),
+        "resolution": "low"
+    }
+
+    try:
+        # Put the item into the table
+        response = table.put_item(Item=item)
+    except Exception as e:
+        print(f'Error inserting item on {table_name}:', str(e))
 
 def upload_json_to_s3(json_data, bucket_name, file_key, content_type):
 
@@ -130,6 +149,7 @@ def lambda_handler(event, context):
     print (response)
 
     save_invocation_data(response)
+    save_image_data(response)
 
     return build_response (200,json.dumps(response))
 

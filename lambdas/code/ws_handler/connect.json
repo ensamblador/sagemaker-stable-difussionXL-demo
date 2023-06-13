@@ -1,0 +1,97 @@
+{
+    "headers": {
+        "Accept": "*/*",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "es-ES,es;q=0.8,en-US;q=0.5,en;q=0.3",
+        "Cache-Control": "no-cache",
+        "Host": "1gsr67s1pg.execute-api.us-east-1.amazonaws.com",
+        "Origin": "http://localhost:3000",
+        "Pragma": "no-cache",
+        "Sec-Fetch-Dest": "websocket",
+        "Sec-Fetch-Mode": "websocket",
+        "Sec-Fetch-Site": "cross-site",
+        "Sec-WebSocket-Extensions": "permessage-deflate",
+        "Sec-WebSocket-Key": "dddA/ju4MuAtOAjRGyOsjw==",
+        "Sec-WebSocket-Version": "13",
+        "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:109.0) Gecko/20100101 Firefox/113.0",
+        "X-Amzn-Trace-Id": "Root=1-648761de-6a12ba8421665cf030701eb5",
+        "X-Forwarded-For": "201.189.136.1",
+        "X-Forwarded-Port": "443",
+        "X-Forwarded-Proto": "https"
+    },
+    "multiValueHeaders": {
+        "Accept": [
+            "*/*"
+        ],
+        "Accept-Encoding": [
+            "gzip, deflate, br"
+        ],
+        "Accept-Language": [
+            "es-ES,es;q=0.8,en-US;q=0.5,en;q=0.3"
+        ],
+        "Cache-Control": [
+            "no-cache"
+        ],
+        "Host": [
+            "1gsr67s1pg.execute-api.us-east-1.amazonaws.com"
+        ],
+        "Origin": [
+            "http://localhost:3000"
+        ],
+        "Pragma": [
+            "no-cache"
+        ],
+        "Sec-Fetch-Dest": [
+            "websocket"
+        ],
+        "Sec-Fetch-Mode": [
+            "websocket"
+        ],
+        "Sec-Fetch-Site": [
+            "cross-site"
+        ],
+        "Sec-WebSocket-Extensions": [
+            "permessage-deflate"
+        ],
+        "Sec-WebSocket-Key": [
+            "dddA/ju4MuAtOAjRGyOsjw=="
+        ],
+        "Sec-WebSocket-Version": [
+            "13"
+        ],
+        "User-Agent": [
+            "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:109.0) Gecko/20100101 Firefox/113.0"
+        ],
+        "X-Amzn-Trace-Id": [
+            "Root=1-648761de-6a12ba8421665cf030701eb5"
+        ],
+        "X-Forwarded-For": [
+            "201.189.136.1"
+        ],
+        "X-Forwarded-Port": [
+            "443"
+        ],
+        "X-Forwarded-Proto": [
+            "https"
+        ]
+    },
+    "requestContext": {
+        "routeKey": "$connect",
+        "eventType": "CONNECT",
+        "extendedRequestId": "Gaw6wG2sIAMF3cw=",
+        "requestTime": "12/Jun/2023:18:20:14 +0000",
+        "messageDirection": "IN",
+        "stage": "dev",
+        "connectedAt": 1686594014178,
+        "requestTimeEpoch": 1686594014194,
+        "identity": {
+            "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:109.0) Gecko/20100101 Firefox/113.0",
+            "sourceIp": "201.189.136.1"
+        },
+        "requestId": "Gaw6wG2sIAMF3cw=",
+        "domainName": "1gsr67s1pg.execute-api.us-east-1.amazonaws.com",
+        "connectionId": "Gaw6wfwfIAMCJwA=",
+        "apiId": "1gsr67s1pg"
+    },
+    "isBase64Encoded": false
+}

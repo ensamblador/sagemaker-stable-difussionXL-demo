@@ -1,0 +1,34 @@
+{
+    "Records": [
+        {
+            "eventID": "c0e98a71accd6e555aadca344ff656e5",
+            "eventName": "INSERT",
+            "eventVersion": "1.1",
+            "eventSource": "aws:dynamodb",
+            "awsRegion": "us-east-1",
+            "dynamodb": {
+                "ApproximateCreationDateTime": 1686455358.0,
+                "Keys": {
+                    "location": {
+                        "S": "s3://sdx4upscalerfull-imgbucket91ec92a7-1ji057i1v86lf/images/original/iconic_historical_512x512.png"
+                    }
+                },
+                "NewImage": {
+                    "location": {
+                        "S": "s3://sdx4upscalerfull-imgbucket91ec92a7-1ji057i1v86lf/images/original/iconic_historical_512x512.png"
+                    },
+                    "resolution": {
+                        "S": "low"
+                    },
+                    "ts": {
+                        "N": "1686455358"
+                    }
+                },
+                "SequenceNumber": "1513300000000042907333770",
+                "SizeBytes": 235,
+                "StreamViewType": "NEW_IMAGE"
+            },
+            "eventSourceARN": "arn:aws:dynamodb:us-east-1:068692106384:table/SDx4UpscalerFull-TblImagesB00304C3-12N36CGOLTDF0/stream/2023-06-10T16:21:57.918"
+        }
+    ]
+}

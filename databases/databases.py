@@ -37,5 +37,5 @@ class Tables(Construct):
 
         self.connections = ddb.Table(
             self, "Connections", 
-            partition_key=ddb.Attribute(name="id", type=ddb.AttributeType.STRING),
+            partition_key=ddb.Attribute(name="connectionId", type=ddb.AttributeType.STRING),
             **TABLE_CONFIG)

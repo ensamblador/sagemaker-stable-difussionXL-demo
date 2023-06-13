@@ -14,7 +14,7 @@ class S3DeployWithDistribution(Construct):
         
         self.distribution = cloudfront.Distribution(self, "Distribution",
             default_behavior=cloudfront.BehaviorOptions(
-            origin=origins.S3Origin(self.bucket,origin_path= '/web'),
+            origin=origins.S3Origin(self.bucket,),
             response_headers_policy=cloudfront.ResponseHeadersPolicy.CORS_ALLOW_ALL_ORIGINS_WITH_PREFLIGHT_AND_SECURITY_HEADERS
             ),
            

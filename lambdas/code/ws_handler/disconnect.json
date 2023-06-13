@@ -1,0 +1,43 @@
+{
+    "headers": {
+        "Host": "1gsr67s1pg.execute-api.us-east-1.amazonaws.com",
+        "x-api-key": "",
+        "X-Forwarded-For": "",
+        "x-restapi": ""
+    },
+    "multiValueHeaders": {
+        "Host": [
+            "1gsr67s1pg.execute-api.us-east-1.amazonaws.com"
+        ],
+        "x-api-key": [
+            ""
+        ],
+        "X-Forwarded-For": [
+            ""
+        ],
+        "x-restapi": [
+            ""
+        ]
+    },
+    "requestContext": {
+        "routeKey": "$disconnect",
+        "disconnectStatusCode": 1001,
+        "eventType": "DISCONNECT",
+        "extendedRequestId": "GayYoFm-IAMFynQ=",
+        "requestTime": "12/Jun/2023:18:30:14 +0000",
+        "messageDirection": "IN",
+        "disconnectReason": "Going away",
+        "stage": "dev",
+        "connectedAt": 1686594014178,
+        "requestTimeEpoch": 1686594614924,
+        "identity": {
+            "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:109.0) Gecko/20100101 Firefox/113.0",
+            "sourceIp": "201.189.136.1"
+        },
+        "requestId": "GayYoFm-IAMFynQ=",
+        "domainName": "1gsr67s1pg.execute-api.us-east-1.amazonaws.com",
+        "connectionId": "Gaw6wfwfIAMCJwA=",
+        "apiId": "1gsr67s1pg"
+    },
+    "isBase64Encoded": false
+}

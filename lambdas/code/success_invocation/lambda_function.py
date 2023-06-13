@@ -16,6 +16,8 @@ out_bucket = os.environ["BUCKET"]
 out_prefix = os.environ["PREFIX"]
 
 
+
+
 def upload_file_to_s3(file_path, bucket_name, object_key):
     # Upload the file to S3
     with open(file_path, "rb") as file:
@@ -50,6 +52,21 @@ def get_invocation_by_id(InvocationId):
 
     return None
 
+def save_image_data(invocation_data):
+    table_name = os.environ['IMAGE_TABLE']
+    table = dynamodb.Table(table_name)
+
+    item = {
+        "location": invocation_data["outputFile"],
+        "ts": Decimal(int(datetime.now().timestamp())),
+        "resolution": "high"
+    }
+
+    try:
+        # Put the item into the table
+        response = table.put_item(Item=item)
+    except Exception as e:
+        print(f'Error inserting item on {table_name}:', str(e))
 
 def save_invocation_data(msg):
     table = dynamodb.Table(os.environ["TABLE_NAME"])
@@ -124,51 +141,10 @@ def lambda_handler(event, context):
 
         msg["outputFile"] = f"s3://{out_bucket}/{out_prefix}/{file_name}"
         save_invocation_data(msg)
+        save_image_data(msg)
 
     return build_response(200, json.dumps("All good!"))
 
-    message = {
-        "awsRegion": "us-east-1",
-        "eventTime": "2023-05-23T03:23:21.814Z",
-        "receivedTime": "2023-05-23T03:23:09.588Z",
-        "invocationStatus": "Completed",
-        "requestParameters": {
-            "accept": "application/json;jpeg",
-            "endpointName": "EEndpoint1CBD216E-N0iXvhsBov7n",
-            "inputLocation": "s3://sdx4upscaler-b08e7c7af-vc56motqrwj5/payload_imagescat128.png.payload",
-        },
-        "responseParameters": {
-            "contentType": "application/json;jpeg",
-            "outputLocation": "s3://sdx4upscaler-b08e7c7af-vc56motqrwj5/inferences/output/2f4dcf85-01b8-418c-8c93-2b30fcdd1ab8.out",
-        },
-        "inferenceId": "8a80ed4e-1ff9-4c2b-bf16-31bdd5d17835",
-        "eventVersion": "1.0",
-        "eventSource": "aws:sagemaker",
-        "eventName": "InferenceResult",
-    }
-
-    event = {
-        "Records": [
-            {
-                "EventSource": "aws:sns",
-                "EventVersion": "1.0",
-                "EventSubscriptionArn": "arn:aws:sns:us-east-1:844626608976:SDx4Upscaler-SNS7073F6E6-k2qlB4XgaoSq:1710c1a3-6cdd-45c6-8524-a0e269b91585",
-                "Sns": {
-                    "Type": "Notification",
-                    "MessageId": "c9cafd57-db5c-5f85-9c8f-a1b1e8b5a527",
-                    "TopicArn": "arn:aws:sns:us-east-1:844626608976:SDx4Upscaler-SNS7073F6E6-k2qlB4XgaoSq",
-                    "Subject": null,
-                    "Message": '{"awsRegion":"us-east-1","eventTime":"2023-05-23T03:23:21.814Z","receivedTime":"2023-05-23T03:23:09.588Z","invocationStatus":"Completed","requestParameters":{"accept":"application/json;jpeg","endpointName":"EEndpoint1CBD216E-N0iXvhsBov7n","inputLocation":"s3://sdx4upscaler-b08e7c7af-vc56motqrwj5/payload_imagescat128.png.payload"},"responseParameters":{"contentType":"application/json;jpeg","outputLocation":"s3://sdx4upscaler-b08e7c7af-vc56motqrwj5/inferences/output/2f4dcf85-01b8-418c-8c93-2b30fcdd1ab8.out"},"inferenceId":"8a80ed4e-1ff9-4c2b-bf16-31bdd5d17835","eventVersion":"1.0","eventSource":"aws:sagemaker","eventName":"InferenceResult"}',
-                    "Timestamp": "2023-05-23T03:23:21.961Z",
-                    "SignatureVersion": "1",
-                    "Signature": "PYpWtLPK2jL1SDWPX2M0BS1YSu9lk0um9KC/ZW+UeS+0ET5NcoumtmIkfg1lbYA4eoiLaO7DJfLxcOHmoHfJzjReYthpmD3PvMgDu/A834FtGdUvRpztgSvzY7qJxs7shwjgkUWNaeAF8S21NZdhxpm4fvn4f6MbUoRQKBXiws8EF0gdY7bQcqZGsAKq4TAyrqShWaLM1MPAG1SZm91mJzdUzAPVOyiKr6WAddHSwBckTMWkhpasnFodJc2zMkAfzYJyGzA+uQHhRFAbaI4qPcffqbhZSJTZTblGOQwEAwxdfkcUbTWwinyrtIJOAXn8DHXB7liv3qgbsSR5hH7oYA==",
-                    "SigningCertUrl": "https://sns.us-east-1.amazonaws.com/SimpleNotificationService-01d088a6f77103d0fe307c0069e40ed6.pem",
-                    "UnsubscribeUrl": "https://sns.us-east-1.amazonaws.com/?Action=Unsubscribe&SubscriptionArn=arn:aws:sns:us-east-1:844626608976:SDx4Upscaler-SNS7073F6E6-k2qlB4XgaoSq:1710c1a3-6cdd-45c6-8524-a0e269b91585",
-                    "MessageAttributes": {},
-                },
-            }
-        ]
-    }
 
 
 def build_response(status_code, json_content):
