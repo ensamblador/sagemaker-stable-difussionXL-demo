@@ -88,7 +88,7 @@ def lambda_handler(event, context):
     cloudfront_dns = os.environ['DISTRUBUTION_NAME']
     items = scan_dynamodb_table(table_name)
     high, low = split_low_high_res(items)
-    mixed_images = mix_images(high, low)
+    mixed_images = mix_images(high,[])# low)
     for im in mixed_images:
         path = im['path']
         filename = im['filename']

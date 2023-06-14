@@ -85,10 +85,18 @@ def lambda_handler(event, context):
     
     
     for con in connections:
+        print ("connection:", con)
         if len(items)>0:
-            response = client.post_to_connection(
-                Data=json.dumps(items[0]),
-                ConnectionId=con['connectionId'])
+
+            try:
+                response = client.post_to_connection(
+                    Data=json.dumps(items[0]),
+                    ConnectionId=con['connectionId'])
+        
+            except Exception as e:
+                print(f"Error : {e}")
+                
+
 
 
 

@@ -12,6 +12,7 @@ import AppLayout from "@cloudscape-design/components/app-layout"
 import Home from './Home'
 import '@aws-amplify/ui-react/styles.css'
 import AppTopNavigation from "./AppTopNavigation"
+import Qrcode from "./Qrcode"
 
 
 const App = () => {
@@ -22,6 +23,7 @@ const App = () => {
     <Routes>
       <Route path="/" element={<Layout />}>
         <Route index element={<Home />} />
+        <Route path="/qr" element={<Qrcode  url="http://www.google.com"/>} />
       </Route>
     </Routes>
 

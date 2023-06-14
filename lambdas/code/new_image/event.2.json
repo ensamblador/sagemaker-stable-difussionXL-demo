@@ -1,0 +1,34 @@
+{
+    "Records": [
+        {
+            "eventID": "a194dd8d819fde285edcaa79d6015efb",
+            "eventName": "MODIFY",
+            "eventVersion": "1.1",
+            "eventSource": "aws:dynamodb",
+            "awsRegion": "us-east-1",
+            "dynamodb": {
+                "ApproximateCreationDateTime": 1686716219.0,
+                "Keys": {
+                    "location": {
+                        "S": "s3://sdx4upscaler-imgbucket91ec92a7-ffy1a4wvlx7a/images/original/iconic_historical_512x512.png"
+                    }
+                },
+                "NewImage": {
+                    "location": {
+                        "S": "s3://sdx4upscaler-imgbucket91ec92a7-ffy1a4wvlx7a/images/original/iconic_historical_512x512.png"
+                    },
+                    "resolution": {
+                        "S": "low"
+                    },
+                    "ts": {
+                        "N": "1686716218"
+                    }
+                },
+                "SequenceNumber": "4714500000000009251110521",
+                "SizeBytes": 225,
+                "StreamViewType": "NEW_IMAGE"
+            },
+            "eventSourceARN": "arn:aws:dynamodb:us-east-1:687406509163:table/SDx4Upscaler-TblImagesB00304C3-RGXKC72Q5ME5/stream/2023-06-13T01:30:16.203"
+        }
+    ]
+}

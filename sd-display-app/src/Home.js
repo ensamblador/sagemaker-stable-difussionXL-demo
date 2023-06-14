@@ -2,27 +2,37 @@ import * as React from "react";
 import "@cloudscape-design/global-styles/index.css"
 import Grid from "@cloudscape-design/components/grid"
 import Modal from "@cloudscape-design/components/modal";
-
+import { generateQR } from "./utils.js";
 
 import APIS from "./apis.js"
 import ImageList from "./ImageList.js";
-
+import NewImage from "./NewImage.js";
 
 
 
 export default () => {
     const [images, setImages] = React.useState([]);
     const [visible, setVisible] = React.useState(false)
-    const [image, setImage] = React.useState({'url':''})
+    const [image, setImage] = React.useState({
+        'url': '',
+        'qr': generateQR('foo')
+    })
     const checkSocket = (socket) => {
         socket.send(JSON.stringify({ action: 'onmessage', data: 'Hola' }))
     }
 
-    const fetchImages  = () => {
+    const fetchImages = () => {
         fetch(APIS.images)
             .then((response) => response.json())
             .then((data) => {
-                setImages(data.items)
+                const itemsWithQR = data.items.map(item => {
+
+                    item['qr'] = generateQR(item['url'])
+
+                    return item
+                })
+                //console.table(itemsWithQR)
+                setImages(itemsWithQR)
             });
     }
 
@@ -47,10 +57,13 @@ export default () => {
             console.log('Received message from server:', message);
 
             if ('url' in message) {
-                setImage({...message})
-                setVisible(true)
-                fetchImages()
-                setTimeout(()=>{setVisible(false)}, 10000)
+                if (message['resolution'] == 'low') {
+                    message['qr'] = generateQR(message['url'])
+                    setImage({ ...message })
+                    setVisible(true)
+                    fetchImages()
+                    setTimeout(() => { setVisible(false) }, 45000)
+                }
             }
         };
 
@@ -72,6 +85,7 @@ export default () => {
 
     return (<div>
         <Grid key={2}
+
             disableGutters
             gridDefinition={[
 
@@ -84,11 +98,11 @@ export default () => {
 
         </Grid>
         <Modal
-            header={<div/>}
+            header={<div />}
             size="large"
             closeAriaLabel={""}
             visible={visible} >
-                <div className={"new-image"}><img id="new-image" src={image.url} /></div>
+            <NewImage im={image} />
         </Modal>
 
     </div>
