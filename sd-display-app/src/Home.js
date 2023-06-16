@@ -20,6 +20,7 @@ export default () => {
     const checkSocket = (socket) => {
         socket.send(JSON.stringify({ action: 'onmessage', data: 'Hola' }))
     }
+    var timeoutId = null
 
     const fetchImages = () => {
         fetch(APIS.images)
@@ -50,7 +51,7 @@ export default () => {
             socket.send(JSON.stringify({ action: 'onmessage', data: 'Hola' }))
 
         };
-
+        
         // Event handler for WebSocket message
         socket.onmessage = (event) => {
             const message = JSON.parse(event.data);
@@ -58,11 +59,15 @@ export default () => {
 
             if ('url' in message) {
                 if (message['resolution'] == 'low') {
+
+                    if (timeoutId) {
+                        clearTimeout(timeoutId)
+                    }
                     message['qr'] = generateQR(message['url'])
                     setImage({ ...message })
                     setVisible(true)
                     fetchImages()
-                    setTimeout(() => { setVisible(false) }, 45000)
+                    timeoutId = setTimeout(() => { setVisible(false) }, 45000)
                 }
             }
         };
@@ -98,6 +103,7 @@ export default () => {
 
         </Grid>
         <Modal
+         onDismiss={() => setVisible(false)}
             header={<div />}
             size="large"
             closeAriaLabel={""}

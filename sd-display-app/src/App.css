@@ -4,9 +4,8 @@ main {
 
 div.qr-code {
   position: sticky;
-bottom: 40px;
+bottom: 100px;
 width: 100%;
-
 }
 
 div.qr-code-new {
@@ -16,8 +15,9 @@ div.qr-code-new {
 
 div.qr-code img {
   float: right;
-  padding: 25px !important;
+  padding: 50px !important;
   animation: none !important;
+  scale: 1.3;
 }
 
 div.single-image-high img{

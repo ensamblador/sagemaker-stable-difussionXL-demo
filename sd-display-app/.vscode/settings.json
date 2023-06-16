@@ -7,5 +7,10 @@
     "amplify/#current-cloud-backend": true,
     "amplify/backend/amplify-meta.json": true,
     "amplify/backend/awscloudformation": true
+  },
+  "workbench.colorCustomizations": {
+    "activityBar.background": "#47241B",
+    "titleBar.activeBackground": "#633326",
+    "titleBar.activeForeground": "#FDF9F9"
   }
 }
