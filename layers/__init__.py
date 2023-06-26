@@ -1,1 +1,1 @@
-from layers.project_layers import Pillow
+from layers.project_layers import (Pillow, AlexaSDK)

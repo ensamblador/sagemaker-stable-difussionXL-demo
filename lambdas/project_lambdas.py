@@ -16,7 +16,7 @@ BASE_LAMBDA_CONFIG = dict (
 
 COMMON_LAMBDA_CONF = dict (runtime=aws_lambda.Runtime.PYTHON_3_8, **BASE_LAMBDA_CONFIG)
 
-from layers import (Pillow)
+from layers import (Pillow, AlexaSDK)
 
 
 class Lambdas(Construct):
@@ -25,8 +25,14 @@ class Lambdas(Construct):
         super().__init__(scope, construct_id, **kwargs)
         
         
-        pil = Pillow(self, 'Lay')
+        pil = Pillow(self, 'PilLay')
+        alexa = AlexaSDK(self, 'AlexaLay')
 
+
+        self.text2image = aws_lambda.Function(
+            self, "AlexaText2Image", handler="lambda_function.lambda_handler",
+            code=aws_lambda.Code.from_asset("./lambdas/code/text2image"),
+            layers= [pil.layer, alexa.layer],**COMMON_LAMBDA_CONF)
 
         self.success_invocation = aws_lambda.Function(
             self, "Success", handler="lambda_function.lambda_handler",

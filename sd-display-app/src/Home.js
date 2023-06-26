@@ -23,7 +23,7 @@ export default () => {
     var timeoutId = null
 
     const fetchImages = () => {
-        fetch(APIS.images)
+        fetch(APIS.images+"images")
             .then((response) => response.json())
             .then((data) => {
                 const itemsWithQR = data.items.map(item => {

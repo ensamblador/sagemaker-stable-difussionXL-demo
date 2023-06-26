@@ -1,11 +1,11 @@
 
 from aws_cdk import (
     aws_apigateway as apg,
+
     Stack
 )
 
 from constructs import Construct
-
 
 
 class WebhookApi(Construct):
@@ -20,6 +20,8 @@ class WebhookApi(Construct):
         images.add_cors_preflight(allow_origins=["*"], allow_methods=["GET", "POST", "OPTIONS"], allow_headers=["*"])
 
         images.add_method("GET") 
+
+
 
 
 

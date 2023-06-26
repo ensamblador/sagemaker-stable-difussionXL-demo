@@ -6,9 +6,33 @@ from aws_cdk import (
 
 from constructs import Construct
 
-
-
 class EndpointConfig(Construct):
+
+    def __init__(self, scope: Construct, construct_id: str,
+                 model_name,
+                 instance_type="ml.g5.xlarge", 
+                 instance_count=1,
+                 **kwargs) -> None:
+        super().__init__(scope, construct_id, **kwargs)
+
+        stk = Stack.of(self)
+
+
+
+        self.config = sm.CfnEndpointConfig(self, "EndpointConfig",
+            production_variants=[sm.CfnEndpointConfig.ProductionVariantProperty(
+                initial_variant_weight=1,
+                model_name=model_name,
+                variant_name="variant1",
+                initial_instance_count=instance_count,
+                instance_type=instance_type,
+            )],
+
+
+        )
+
+
+class AsyncEndpointConfig(Construct):
 
     def __init__(self, scope: Construct, construct_id: str,
                  s3_bucket,

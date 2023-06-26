@@ -1,0 +1,1 @@
+from stable_difussion.stable_difussion_stack import StableDifussionX4UpscalerStack

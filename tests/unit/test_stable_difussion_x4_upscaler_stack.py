@@ -1,7 +1,7 @@
 import aws_cdk as core
 import aws_cdk.assertions as assertions
 
-from stable_difussion_x4_upscaler.stable_difussion_x4_upscaler_stack import StableDifussionX4UpscalerStack
+from stable_difussion.stable_difussion_stack import StableDifussionX4UpscalerStack
 
 # example tests. To run these tests, uncomment this file along with the example
 # resource in stable_difussion_x4_upscaler/stable_difussion_x4_upscaler_stack.py

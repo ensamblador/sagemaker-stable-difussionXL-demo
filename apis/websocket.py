@@ -1,6 +1,7 @@
 from aws_cdk.aws_apigatewayv2_integrations_alpha import WebSocketLambdaIntegration
 from aws_cdk import aws_apigatewayv2_alpha as apigwv2
-from aws_cdk import Stack
+from aws_cdk import (Stack, CfnOutput)
+
 
 # message_handler: lambda.Function
 
@@ -44,3 +45,5 @@ class WebsocketApi(Construct):
 
 
         self.endpoint = f'https://{self.web_socket_api.api_id}.execute-api.{stk.region}.amazonaws.com/dev'
+
+        CfnOutput(self, 'websocket',value= self.endpoint.replace("https://", "wss://"))
