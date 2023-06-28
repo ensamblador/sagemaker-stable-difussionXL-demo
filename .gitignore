@@ -9,3 +9,8 @@ __pycache__
 .cdk.staging
 cdk.out
 .yarn
+
+*.ipynb
+*.drawio
+*.bkp
+*.dtmp
