@@ -1,4 +1,18 @@
 
+# generative model SD
+
+stable_difussion_xl = dict (
+    model_package_name = "arn:aws:sagemaker:region:account:model-package/sdxl-beta-v0-8-7189b86-fdaf7570ea6635a4a4b0fd3c750691d0",
+    enable_network_isolation = True,
+    instance_type= "ml.g5.xlarge",
+    instance_count=1,
+    s3_path = 'images/original/',
+    style_preset = 'cinametic',
+    width= '512',
+    seed='0'
+)
+
+
 # upsacaler 
 
 upscaler =  dict (
@@ -8,17 +22,4 @@ upscaler =  dict (
     instance_type= 'ml.g5.xlarge',
     instance_count=1,
     invocation_per_instance=1
-)
-
-# generative model SD
-
-stable_difussion_xl = dict (
-    model_package_name = "arn:aws:sagemaker:us-east-1:865070037744:model-package/stable-diffusion-xl-beta-v2-2--80252c537a5a396280cdd21b5f8b298e",
-    enable_network_isolation = True,
-    instance_type= "ml.g5.xlarge",
-    instance_count=1,
-    s3_path = 'images/original/',
-    style_preset = 'cinametic',
-    width= '512',
-    seed='0'
 )
