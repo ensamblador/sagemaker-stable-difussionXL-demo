@@ -8,45 +8,42 @@ TODO: more verbose explanation and proof read
 ![](diagrama.png)
 
 ### 1. Image Generation part
-1. The idea is to have or develop an Alexa Skill capable of getting the prompt.
+1. The idea is to have (or develop) an Alexa Skill capable of getting the prompt from the user. 
 2. The prompt is translated to english (english prompts tends to generate better images)
-3. Then a Stable Diffusion XL model is invoked, the corresponding image is stored on s3 bucket 
+3. Then, a Stable Diffusion XL endpoint is invoked, the corresponding image is stored in an s3 bucket 
 
 Note: Despite the 3 different s3 bucket icons, it its the same one.
 
 ### 2. Upscaling Part
-1. A lambda function is triggered on object creation. It handles a image list in dynamodb, notify the website and invoke a second sagemaker endpoint.
-2. We use another SD Model (x4 upscaler) that is capable of taking a pic and upscale x4 in both dimensions (effective x16 image size). This is an asycronous because it can take more than 60 seconds.
-3. After completion we update our image list with the hires version.
+1. A lambda function is triggered upon object creation. It handles the images list in a dynamodb table, it also notify the website and invoke a second sagemaker endpoint.
+2. This is another Stable Diffusion Model (the x4 upscaler) that is capable of taking a pic and upscale four times in both dimensions (effective x16 image size). This is an asycronous invocation because it can take like 180 secons converting a 512x512 to a 2048x2048 image.
+3. After completion we update our image list with the High resolution version.
 
 
-### 3. Website
-1. The website is hosted on s3 bucket and delivered by cloudfront. As mentioned earlier this contains the web app assets (react/js) alongside with generated images changing images every 15 seconds.
-2. Rest API provided to list images and get the information on startup and on every update.
-3. Websocket API is to have a way to show in realtime the new generated images, popup in the screen for 45 seconds.
+### 3. The Website
+1. The website is hosted in an s3 bucket and is delivered by cloudfront. As mentioned previously, this contains the web app assets (react/js/css) alongside with all the generated images, the app code change images every 15 seconds and provide a QR code to direct access and download.
+
+2. A Rest API  is provided to list images on page load and when we receive a websocket update.
+
+3. Websocket API is to have a way to show  the generated imaged in realtime, as a popup in the screen for 45 seconds.
 
 
 ## Deployment Instructions
 
 ### Pre requisites
 
-* Python and [CDK installed](https://docs.aws.amazon.com/cdk/v2/guide/getting_started.html#getting_started_install) and remember to [bootstrap](https://docs.aws.amazon.com/cdk/v2/guide/getting_started.html#getting_started_bootstrap) your account and region the first time.
+* Python and [CDK installed](https://docs.aws.amazon.com/cdk/v2/guide/getting_started.html#getting_started_install. And remember to [bootstrap](https://docs.aws.amazon.com/cdk/v2/guide/getting_started.html#getting_started_bootstrap) your account and region if this is your first cdk deployment.
 * The first model (Stable Diffusion XL) is a [Stability AI Marketplace offering](https://aws.amazon.com/marketplace/pp/prodview-3j5jzj4k6slxs) that you need to subscribe. It's free of charge as model package. 
-* Enough [Sagemaker endpoint quotas](https://us-east-1.console.aws.amazon.com/servicequotas/home/services/sagemaker/quotas) for ml.g5.xlarge or bigger. You'll need at least 2.
-* A copy of tweaked Stable Difussion x4 upscaler, this is the same from [Sagemaker Jumpstart](https://github.com/aws/amazon-sagemaker-examples/blob/main/introduction_to_amazon_algorithms/jumpstart_upscaling/Amazon_JumpStart_Upscaling.ipynb) but with [xformers](https://github.com/facebookresearch/xformers) in the inference code to work with less RAM. 
+* Enough [Sagemaker endpoint quotas](https://us-east-1.console.aws.amazon.com/servicequotas/home/services/sagemaker/quotas) for ml.g5.xlarge or bigger. You'll need at least 2 instances.
+* A copy of tweaked Stable Difussion x4 upscaler, this is the same from [Sagemaker Jumpstart](https://github.com/aws/amazon-sagemaker-examples/blob/main/introduction_to_amazon_algorithms/jumpstart_upscaling/Amazon_JumpStart_Upscaling.ipynb) but with [xformers](https://github.com/facebookresearch/xformers) in the inference code to work with less RAM. You'll see this model in `config.py`. ACL is Read for Any with an aws account.
 * For the web build you'll need [yarn](https://classic.yarnpkg.com/lang/en/docs/install/) installed
 
-    For a copy of the model share a slack message with @garriden and your aws account id. Then you can copy to your account.
-
-    ```python 
-    aws s3 cp s3://844626608976-sagemaker-us-east-1/infer-prepack-model-upscaling-stabilityai-stable-diffusion-x4-upscaler-fp16-vgarriden.tar.gz s3://yourbucket/yourprefix/yourkey
-    ```
 
 ### Deployment instructions
 
 #### Preparation
 
-1. Clone this repo. Remember that CDK needs to be installed and AWS Credentials present (vía environment variables or aws profile). 
+1. Clone this repo. Remember that CDK needs to be installed and AWS Credentials needs to be present (vía environment variables or aws profile). 
 
     ```bash 
     git clone https://github.com/ensamblador/sagemaker-stable-difussionXL-demo.git
@@ -85,7 +82,7 @@ Note: Despite the 3 different s3 bucket icons, it its the same one.
     ```
     Optional: if you want to change Stack Name or Tags, go to `app.py` in the same folder.
 
-4. Build de react web app
+4. Build de react web app inside `sd-display-app` folder
 
     ```bash
     cd sd-display-app
@@ -97,9 +94,9 @@ Note: Despite the 3 different s3 bucket icons, it its the same one.
 
 4. Deploy all the things!
 
-    Take a look at the code in `stable_difussion/stable_difussion_stack.py`. You'll basically this cdk code accounts for all the lambdas, buckets, dynamodb, apis, and sagemaker endpoints. You can view the generated cloudformation template with `cdk synth`. 
+    Take a look at the code in `stable_difussion/stable_difussion_stack.py`. In a nutshell, this cdk code accounts for all the lambdas, buckets, dynamodb, apis, and sagemaker endpoints. You can view the generated cloudformation template with `cdk synth`. 
 
-    OK, go back to the main folder:
+    OK, go back to the main folder and deploy the stack:
 
     ```bash
     cd ..
@@ -111,7 +108,7 @@ Note: Despite the 3 different s3 bucket icons, it its the same one.
     Do you wish to deploy these changes (y/n)?y
     ```
 
-    After like 9-10 minutes all the backend is deployed. You'll some outputs at the end
+    After like 9-10 minutes all the backend is deployed. You'll see some outputs at the end
 
     ```bash
     SDXL: deploying... [1/1]
@@ -126,9 +123,9 @@ Note: Despite the 3 different s3 bucket icons, it its the same one.
     SDXL.WSwebsocket = wss://yyyyyyy.execute-api.us-east-1.amazonaws.com/dev
     SDXL.wwwWebsite = zzzzz.cloudfront.net
     ```
-4. Update Web app with the new APIs and re-deploy that.
+4. Update Web app with the fresh APIs and re-deploy that.
 
-    Well, grab the two API url from outputs (here in the cli or you can go to the cloudformation stack outputs) and use that in `sd-display-app/src/apis.js`. Those are the new deployed APIs:
+    Well, grab the two API url from the output (here in the cli or you can go to the cloudformation stack outputs) and use that in `sd-display-app/src/apis.js` :
 
     ```js
     const APIS = {
@@ -139,14 +136,13 @@ Note: Despite the 3 different s3 bucket icons, it its the same one.
     export default APIS
     ```
 
-    Save that and, again in `sd-display-app`, run 
+    Save that and, again in `sd-display-app` folder, run 
 
     ```bash
-    cd sd-display-app
     yarn build
     ````
 
-    go back to the cdk folder an re-deploy
+    go back to the cdk folder an re-deploy the website (it will only deploy the changes)
 
     ```bash
     cd ..
@@ -161,6 +157,11 @@ Note: Despite the 3 different s3 bucket icons, it its the same one.
     TODO
 
 
+6. Delete everything
+
+    ```bash
+    cdk destroy
+    ```
 
 
 
