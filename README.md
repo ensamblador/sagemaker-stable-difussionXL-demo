@@ -46,7 +46,7 @@ Note: Despite the 3 different s3 bucket icons, it its the same one.
 1. Clone this repo. Remember that CDK needs to be installed and AWS Credentials needs to be present (vía environment variables or aws profile). 
 
     ```bash 
-    git clone https://github.com/ensamblador/sagemaker-stable-difussionXL-demo.git
+    git clone <THE_REPOSITORY>
     cd sagemaker-stable-difussionXL-demo
     ```
 2. Create a virtual environment and activate it. Then, install the required python packages.
