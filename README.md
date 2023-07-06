@@ -32,7 +32,7 @@ Note: Despite the 3 different s3 bucket icons, it its the same one.
 
 ### Pre requisites
 
-* Python and [CDK installed](https://docs.aws.amazon.com/cdk/v2/guide/getting_started.html#getting_started_install. And remember to [bootstrap](https://docs.aws.amazon.com/cdk/v2/guide/getting_started.html#getting_started_bootstrap) your account and region if this is your first cdk deployment.
+* Python and [CDK installed](https://docs.aws.amazon.com/cdk/v2/guide/getting_started.html#getting_started_install). And remember to [bootstrap](https://docs.aws.amazon.com/cdk/v2/guide/getting_started.html#getting_started_bootstrap) your account and region if this is your first cdk deployment.
 * The first model (Stable Diffusion XL) is a [Stability AI Marketplace offering](https://aws.amazon.com/marketplace/pp/prodview-3j5jzj4k6slxs) that you need to subscribe. It's free of charge as model package. 
 * Enough [Sagemaker endpoint quotas](https://us-east-1.console.aws.amazon.com/servicequotas/home/services/sagemaker/quotas) for ml.g5.xlarge or bigger. You'll need at least 2 instances.
 * A copy of tweaked Stable Difussion x4 upscaler, this is the same from [Sagemaker Jumpstart](https://github.com/aws/amazon-sagemaker-examples/blob/main/introduction_to_amazon_algorithms/jumpstart_upscaling/Amazon_JumpStart_Upscaling.ipynb) but with [xformers](https://github.com/facebookresearch/xformers) in the inference code to work with less RAM. You'll see this model in `config.py`. ACL is Read for Any with an aws account.
