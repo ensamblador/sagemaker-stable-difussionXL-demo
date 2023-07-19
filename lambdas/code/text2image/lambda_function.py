@@ -72,7 +72,7 @@ def get_progressive_response(handler_input):
     #Fchirinos - Translate
     #text = prompt
     print(prompt)
-    prompt = translate.translate_text(Text=prompt, SourceLanguageCode="es-MX", TargetLanguageCode="en")
+    prompt = translate.translate_text(Text=prompt, SourceLanguageCode="auto", TargetLanguageCode="en")
     text = str(prompt)
     print(prompt)
 
@@ -85,12 +85,12 @@ def get_progressive_response(handler_input):
     
     payload = {
         "text_prompts": [{"text":text}],
-        "style_preset": style,
+        #"style_preset": style,
         "width": os.environ["width"]
     }
 
     encoded_payload = json.dumps(payload).encode("utf-8")
-    response = runtime.invoke_endpoint(EndpointName='jumpstart-sdxl-stability',
+    response = runtime.invoke_endpoint(EndpointName=os.environ['sagemaker_endpoint'],
     #                                    ContentType='application/x-text',
                                         ContentType='application/json',
                                         Accept="application/json",

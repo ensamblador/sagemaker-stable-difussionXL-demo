@@ -154,15 +154,74 @@ Note: Despite the 3 different s3 bucket icons, it its the same one.
 
 5. The Alexa Skill part.
 
-    TODO
+    For the Skill go to https://developer.amazon.com/alexa/console/ask and create or log in to your developer account. [Create a new](https://developer.amazon.com/alexa/console/ask/create-new-skill/name) custom skill with the following:
+
+    - Primary Locale : Spanish (US)
+    - Model : Custom
+    - Hosting Services: Provision your own
+    - Template: Start from scratch
+
+    <br/>
+    Like this:
+
+    ![](skill.png)
+
+    
+    Right after creation, go to the **Interaction Model -> JSON editor and** (left side menu) and import the file  `AWS Cloud Experience LATAM Demos - Txt2Img.json` located [here](./alexa_skill/AWS%20Cloud%20Experience%20LATAM%20Demos%20-%20Txt2Img.json) . You can copy & paste the file contents in the JSON Editor or just simply drag & drop the file.
+
+    You should see something like this:
+
+    ![](skill2.png)
+
+    The next thing is to link the skill with your lambda **FnAlexaText2Image** as your backend code for skill logic. 
 
 
-6. Delete everything
+    Open the  **Assets -> Endppoint** menu and copy **Your SKill ID** 
+
+    ![](skill3.png)
+
+    Then, open another tab with your AWS Lambda Console and go to the **FnAlexaText2Image** Function:
+    - Create Alexa Trigger with your Skill ID
+    - Copy the Function ARN
+
+    ![](skill4.png)
+
+
+    Finally, open  Alexa Developer Console,  go to **Assets -> Endppoint**  (you should be right there) and update the **AWS Lambda ARN** with the one you copied. Use the corresponding lambda Region.
+
+
+    ![](skill5.png)
+
+
+
+7. Test The skill.
+
+    You can test the skill in the same [alexa developer console test](https://developer.amazon.com/alexa/console/ask/test/) or by using your own echo device with display capabilities ( echo show)
+
+    when you test a skill use the invocation name and the instruction, like this:
+
+        User: Alexa, abre creador de imágenes
+        Alexa: Hola. ¿Qué quieres que genere?
+        User: genera una imagen de freddie mercury jugando futbol
+        Alexa: Listo. Ésta es la imagen que generé para: imagen de freddie mercury jugando futbol    
+
+    ![](skill1.gif)
+
+    take a look also at the display app (Cloudformation Outputs from CDK Cli or Cloudformation Console):
+
+    ![](skill12gif.gif)
+
+    (note: the gif show a different image because it was invoked a second time. You can see the randomness of the generation)
+
+
+6. After Demo Delete everything
 
     ```bash
     cdk destroy
     ```
 
+    Also go and manually delete buckets (empty, then delete) and optionally delete the skill.
+    
 
 
 Thanks to: 

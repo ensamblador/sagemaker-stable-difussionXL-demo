@@ -93,6 +93,7 @@ class StableDifussionX4UpscalerStack(Stack):
             actions=["sagemaker:InvokeEndpointAsync","sagemaker:InvokeEndpoint"],resources=[f"arn:aws:sagemaker:*:{stk.account}:endpoint/*"])
         )
         Fn.text2image.add_to_role_policy(iam.PolicyStatement( actions=["translate:*"], resources=['*']))
+        Fn.text2image.add_to_role_policy(iam.PolicyStatement( actions=["comprehend:*"], resources=['*']))
 
         bucket.grant_read_write(Fn.text2image)
 
